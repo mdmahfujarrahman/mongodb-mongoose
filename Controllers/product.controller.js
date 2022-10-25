@@ -1,4 +1,4 @@
-const { getProductService, addProductService } = require("../Services/product.services");
+const { getProductService, addProductService, updateProductService, bulkUpdateProductService } = require("../Services/product.services");
 
 
 exports.getProducts = async (req, res, next) => {
@@ -33,12 +33,47 @@ exports.addProduct = async (req, res, next) => {
         res.status(200).json({
             status: "success",
             message: "Product saved successfully",
-            result: result,
         });
     } catch (error) {
         res.status(400).json({
             status: "fail",
             message: "Product not saved",
+            error: error.message,
+        });
+    }
+};
+
+exports.updateProduct= async (req, res, next) => {
+    try {
+        const updateInfo = await updateProductService(req)
+        
+        res.status(200).json({
+            status: "success",
+            message: "Product update successfully",
+        });
+
+    } catch (error) {
+        res.status(400).json({
+            status: "fail",
+            message: "Product not updated",
+            error: error.message,
+        });
+        
+    }
+}
+exports.bulkUpdateProduct = async (req, res, next) => {
+    try {
+        
+        const updateInfo = await bulkUpdateProductService(req);
+
+        res.status(200).json({
+            status: "success",
+            message: "Product update successfully",
+        });
+    } catch (error) {
+        res.status(400).json({
+            status: "fail",
+            message: "Product not updated",
             error: error.message,
         });
     }
