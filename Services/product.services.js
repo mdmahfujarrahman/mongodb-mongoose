@@ -18,13 +18,18 @@ exports.getProductService = async () => {
     return products;
 };
 
+exports.findById = async (id) => {
+    const result = await Product.findById(id)
+    return result;
+}
+
 
 exports.addProductService = async(data) => {
     const product = await Product.create(data);
     return product
 }
 
-exports.updateProductService = async(req) => {
+exports.updateProductByIdService = async(req) => {
     const {id} = req.params
 
     const updateInfo = await Product.updateOne({_id: id}, { $inc : req.body },{
@@ -54,6 +59,19 @@ exports.bulkUpdateProductService = async (req) => {
     });
 
     const result = await Promise.all(products)
+
+
+    return result;
+};
+
+exports.deleteProductByIdService = async (req) => {
+    const result = await Product.deleteOne({ _id: id });
+    return result;
+};
+
+exports.bulkDeleteProductService = async (req) => {
+
+    const result = await Product.deleteMany({ _id: req.body.deleteProductsId});
 
 
     return result;
